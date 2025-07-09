@@ -1,0 +1,42 @@
+class Solution:
+    def maxFreeTime(self, eventTime: int, k: int, startTime: List[int], endTime: List[int]) -> int:
+        '''
+        # 1
+        ans, temp = 0,startTime[0]
+        n = len(startTime)
+        for i in range(1,k):
+            temp = temp + startTime[i] - endTime[i-1]
+        for i in range(k,n):
+            temp = temp + (startTime[i] - endTime[i-1])
+            if temp>ans:
+                ans = temp
+            if i==k:
+                temp = temp - (startTime[i-k])
+            else:
+                temp = temp - (startTime[i-k]-endTime[i-k-1])
+        temp = temp + eventTime - endTime[n-1]
+        if temp>ans:
+            ans = temp
+        return ans
+        '''
+
+        '''
+        # 2
+        def get(i:int)->int:
+            if i==0:
+                return startTime[0]
+            if i==n:
+                return eventTime-endTime[-1]
+            return startTime[i]-endTime[i-1]
+        
+        n = len(startTime)
+        ans, temp = 0, 0
+        for i in range(n+1):
+            temp += get(i)
+            if i<k:
+                continue
+            ans = max(ans,temp)
+            temp -= get(i-k)
+        return ans
+        '''
+            
